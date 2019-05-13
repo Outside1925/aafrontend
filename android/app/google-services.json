@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "974565965961",
+    "firebase_url": "https://audit-army.firebaseio.com",
+    "project_id": "audit-army",
+    "storage_bucket": "audit-army.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974565965961:android:c6781665f10430b7",
+        "android_client_info": {
+          "package_name": "com.auditarmy.auditarmy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974565965961-f76o29tre0d14tnmf9k1drvp4skmjev9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.auditarmy.auditarmy",
+            "certificate_hash": "21646daacba5fde59fa8af51a6fa5b7bf5d78ca0"
+          }
+        },
+        {
+          "client_id": "974565965961-u7olf6j8cah0r6rv2mbu30urlifjqpp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0Vla4hS2Vnf4uCV287u8IYyMVtQ19rBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974565965961-u7olf6j8cah0r6rv2mbu30urlifjqpp5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

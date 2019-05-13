@@ -2,11 +2,17 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 
 import firebase from 'react-native-firebase';
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+
+GoogleSignin.configure({
+  forceConsentPrompt: true,
+  webClientId: '974565965961-u7olf6j8cah0r6rv2mbu30urlifjqpp5.apps.googleusercontent.com'
+});
 
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {failed: "NOOO", user: null, jwt: null};
   }
 
   async componentDidMount() {
@@ -17,6 +23,46 @@ export default class App extends React.Component {
     // await firebase.analytics().logEvent('foo', { bar: '123'});
   }
 
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({ failed: "SUCCESS" });
+      this.setState({ user: userInfo });
+      
+ 
+      const resp = await fetch('https://auditarmy.com/api/sessions', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          session: {
+            token: userInfo.idToken,
+            authprovider: "google"
+          }
+        })
+      }).then(response => response.json());
+      this.setState({ jwt: resp.jwt })
+      
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        this.setState({ failed: "CANCELLED" });
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+        this.setState({ failed: "PROGRESS" });
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        this.setState({ failed: "NO AVAIL" });
+      } else {
+        // some other error happened
+        this.setState({ failed: "WTF" });
+      }
+    }
+  }
+
   render() {
     return (
       <ScrollView>
@@ -25,38 +71,24 @@ export default class App extends React.Component {
           <Text style={styles.welcome}>
             Welcome to {'\n'} React Native Firebase
           </Text>
+          <GoogleSigninButton
+            style={{ width: 192, height: 48 }}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={this.signIn}
+            disabled={this.state.isSigninInProgress} />
           <Text style={styles.instructions}>
             To get started, edit App.js
           </Text>
-          {Platform.OS === 'ios' ? (
+          {this.state.user ? (
             <Text style={styles.instructions}>
-              Press Cmd+R to reload,{'\n'}
-              Cmd+D or shake for dev menu
+              Welcome, {this.state.user.user.name}
             </Text>
           ) : (
             <Text style={styles.instructions}>
-              Double tap R on your keyboard to reload,{'\n'}
-              Cmd+M or shake for dev menu
+              Please sign in to continue.
             </Text>
           )}
-          <View style={styles.modules}>
-            <Text style={styles.modulesHeader}>The following Firebase modules are pre-installed:</Text>
-            {firebase.admob.nativeModuleExists && <Text style={styles.module}>admob()</Text>}
-            {firebase.analytics.nativeModuleExists && <Text style={styles.module}>analytics()</Text>}
-            {firebase.auth.nativeModuleExists && <Text style={styles.module}>auth()</Text>}
-            {firebase.config.nativeModuleExists && <Text style={styles.module}>config()</Text>}
-            {firebase.crashlytics.nativeModuleExists && <Text style={styles.module}>crashlytics()</Text>}
-            {firebase.database.nativeModuleExists && <Text style={styles.module}>database()</Text>}
-            {firebase.firestore.nativeModuleExists && <Text style={styles.module}>firestore()</Text>}
-            {firebase.functions.nativeModuleExists && <Text style={styles.module}>functions()</Text>}
-            {firebase.iid.nativeModuleExists && <Text style={styles.module}>iid()</Text>}
-            {firebase.invites.nativeModuleExists && <Text style={styles.module}>invites()</Text>}
-            {firebase.links.nativeModuleExists && <Text style={styles.module}>links()</Text>}
-            {firebase.messaging.nativeModuleExists && <Text style={styles.module}>messaging()</Text>}
-            {firebase.notifications.nativeModuleExists && <Text style={styles.module}>notifications()</Text>}
-            {firebase.perf.nativeModuleExists && <Text style={styles.module}>perf()</Text>}
-            {firebase.storage.nativeModuleExists && <Text style={styles.module}>storage()</Text>}
-          </View>
         </View>
       </ScrollView>
     );
