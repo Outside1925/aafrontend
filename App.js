@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 
 import firebase from 'react-native-firebase';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, statusCodes, GoogleSigninButton } from 'react-native-google-signin';
 
 GoogleSignin.configure({
   forceConsentPrompt: true,
@@ -29,8 +29,8 @@ export default class App extends React.Component {
       const userInfo = await GoogleSignin.signIn();
       this.setState({ failed: "SUCCESS" });
       this.setState({ user: userInfo });
-      
- 
+
+
       const resp = await fetch('https://auditarmy.com/api/sessions', {
         method: 'POST',
         headers: {
@@ -45,7 +45,7 @@ export default class App extends React.Component {
         })
       }).then(response => response.json());
       this.setState({ jwt: resp.jwt })
-      
+
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -58,6 +58,7 @@ export default class App extends React.Component {
         this.setState({ failed: "NO AVAIL" });
       } else {
         // some other error happened
+        this.setState({error: error});
         this.setState({ failed: "WTF" });
       }
     }
