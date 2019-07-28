@@ -1,18 +1,24 @@
 import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-
+import TabNavigator from './containers/TabNavigator';
 import firebase from 'react-native-firebase';
 import { GoogleSignin, statusCodes, GoogleSigninButton } from 'react-native-google-signin';
+import NavigationManager from './containers/TabNavigator';
+import PhoneStorageManager from './assets/jwtStorageManager';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+
+//import deviceStorage from './assets/deviceStorage'
 
 GoogleSignin.configure({
   forceConsentPrompt: true,
-  webClientId: '974565965961-u7olf6j8cah0r6rv2mbu30urlifjqpp5.apps.googleusercontent.com'
+  webClientId: '795729414440-g0dm2lep8tcamtjnhp7nq22dc7um217d.apps.googleusercontent.com'
 });
 
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = {failed: "NOOO", user: null, jwt: null};
+    this.state = { failed: "NOOO", user: null, jwt: null };
   }
 
   async componentDidMount() {
@@ -30,23 +36,110 @@ export default class App extends React.Component {
       this.setState({ failed: "SUCCESS" });
       this.setState({ user: userInfo });
 
-
-      const resp = await fetch('https://auditarmy.com/api/sessions', {
+      //user creation start
+      await fetch('http://auditarmy.com/api/users',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          session: {
-            token: userInfo.idToken,
-            authprovider: "google"
+          "user": {
+            "token": userInfo.idToken,
+            "authprovider": "google"
           }
         })
-      }).then(response => response.json());
-      this.setState({ jwt: resp.jwt })
+      })
+      .then((response) => response.json())
+        .then((responseJson) => {
+          console.log('users respo ', responseJson);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      // user creation end
+      // session creation start
+      await fetch('http://auditarmy.com/api/sessions',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "session": {
+            "token": userInfo.idToken,
+            "authprovider": "google"
+          }
+        })
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log('sessions respo ', responseJson)
+          this.setState({ jwt: responseJson.jwt }, () => {
+              console.log('state has been set', this.state.jwt);
+              PhoneStorageManager._storeData("key", this.state.jwt);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      // session creation end
 
+      // const resp = await fetch('http://auditarmy.com/api/users', {
+      //   method: 'POST',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     "user": {
+      //       "token": userInfo.idToken,
+      //       "authprovider": "google"
+      //     }
+      //   })
+      // })
+      //   .catch(e => console.log('error in api ', e))
+      // console.log("response users", resp);
+
+      // .then(response => response.json())
+
+      // console.log("response users" ,response);
+      // this.setState({ jwt: resp.jwt }, ()=> {
+      //   console.log(this.state.jwt, 'jwt');
+      //   PhoneStorageManager._storeData("key",this.state.jwt);
+      // });
+      // console.log("this is not working");
+
+
+      // const respoSession = await 
+      // fetch('http://auditarmy.com/api/sessions', {
+      //   method: 'POST',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     "session": {
+      //       "token": userInfo.idToken,
+      //       "authprovider": "google"
+      //     }
+      //   })
+      // }).then(response => console.log('resp ', response.data))
+      //   .catch(e => console.log('e ', e))
+      // this.setState({ jwt: 'dumy jwt' }, () => {
+      //   console.log(this.state.jwt, 'jwt');
+      //   PhoneStorageManager._storeData("key", this.state.jwt);
+      // });
+
+      // console.log("res " ,respoSession);
+      // console.log("jwt token " ,respoSession.formData.jwt);
+      // this.setState({ jwt: resp.jwt }, ()=> {
+      //   console.log(this.state.jwt, 'jwt');
+      //   PhoneStorageManager._storeData("key",this.state.jwt);
+      // });
+      // console.log("this is not working");
     } catch (error) {
+      console.log("error ", error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         this.setState({ failed: "CANCELLED" });
@@ -58,20 +151,24 @@ export default class App extends React.Component {
         this.setState({ failed: "NO AVAIL" });
       } else {
         // some other error happened
-        this.setState({error: error});
-        this.setState({ failed: "WTF" });
+        this.setState({ error: error });
+        this.setState({ failed: "some other error happened" });
       }
     }
   }
 
   render() {
-    return (
-      <ScrollView>
+    if (this.state.jwt) {
+      console.log('navigation state jwt', this.state.jwt);
+      console.log('user token', this.state.user)
+      return (
+        <NavigationManager JWT={this.state.jwt} />
+      );
+    }
+    else
+      return (
         <View style={styles.container}>
-          <Image source={require('./assets/ReactNativeFirebase.png')} style={[styles.logo]}/>
-          <Text style={styles.welcome}>
-            Welcome to {'\n'} React Native Firebase
-          </Text>
+          <Image source={require('./assets/auditlogo.png')} style={[styles.logo]} />
           <GoogleSigninButton
             style={{ width: 192, height: 48 }}
             size={GoogleSigninButton.Size.Wide}
@@ -79,20 +176,11 @@ export default class App extends React.Component {
             onPress={this.signIn}
             disabled={this.state.isSigninInProgress} />
           <Text style={styles.instructions}>
-            To get started, edit App.js
-          </Text>
-          {this.state.user ? (
-            <Text style={styles.instructions}>
-              Welcome, {this.state.user.user.name}
-            </Text>
-          ) : (
-            <Text style={styles.instructions}>
-              Please sign in to continue.
-            </Text>
-          )}
+            Please Sign in to continue.
+              </Text>
+
         </View>
-      </ScrollView>
-    );
+      );
   }
 }
 
@@ -108,7 +196,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 64,
     padding: 10,
-    width: 135,
+    width: 200,
   },
   welcome: {
     fontSize: 20,
