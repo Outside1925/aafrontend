@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
       return (  
         <Container>
         {/* <Header /> */}
-        <Text style={{alignSelf:"center",paddingTop:"10%",color:"Black",fontSize:24,fontWeight:"300",marginBottom:20}}>My Questions</Text>
+        <Text style={{alignSelf:"center",paddingTop:"10%",color:"black",fontSize:24,fontWeight:"300",marginBottom:20}}>My Questions</Text>
         <Content>
 
 
@@ -90,12 +90,12 @@ export default class HomeScreen extends React.Component {
                   <ListItem thumbnail>
                     <Body>
                       <Text></Text>
-                      <Text note numberOfLines={1}>Longggggggggggggggggg . .</Text>
+                      <Text note numberOfLines={1}>Longggggggggggggggggg</Text>
                     </Body>
                     <Right>
-                      <Button transparent>
+                      {/* <Button transparent>
                         <Text>View</Text>
-                      </Button>
+                      </Button> */}
                     </Right>
                   </ListItem>
 

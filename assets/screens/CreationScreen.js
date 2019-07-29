@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Alert} from 'react-native';
 import PhoneStorageManager from '../../assets/jwtStorageManager'
 //import { AsyncStorage } from 'react-native';
 import {
@@ -67,7 +68,8 @@ export default class CreationScreen extends React.Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('forms respo ', responseJson);
+                console.log('forms respo ', responseJson)
+                Alert.alert('Question Submitted');
             })
             .catch((error) => {
                 console.error(error);
