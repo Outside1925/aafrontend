@@ -92,7 +92,7 @@ export default class CreationScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.header}>Create New Audit</Text>
+                    <Text style={styles.header}>Create New Question</Text>
                 </View>
                 <ScrollView>
                     <View style={styles.inputContainer}>

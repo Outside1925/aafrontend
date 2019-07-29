@@ -43,7 +43,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },  
         Image: { screen: AuditScreen,  //replace with auditstack after routing.
             navigationOptions:{  
-                tabBarLabel:'Audits',  
+                tabBarLabel:'Questions',  
                 tabBarIcon: ({ tintColor }) => (  
                     <View>  
                         <Icon style={[{color: tintColor}]} size={25} name={'ios-images'}/>  

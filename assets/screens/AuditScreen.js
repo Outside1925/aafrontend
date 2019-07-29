@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import PhoneStorageManager from '../../assets/jwtStorageManager'
 
+import {H1,Content} from 'native-base';
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+
+
 export default class AuditScreen extends Component {
   state = {
     data: []
@@ -61,12 +67,52 @@ export default class AuditScreen extends Component {
   _keyExtractor = (item, index) => item.title;
   render() {
     return (
-      <Text/>
-      // <FlatList
-      //   data={this.state.data}
-      //   renderItem={this._renderItem}
-      //   keyExtractor={this._keyExtractor}
-      // />
+    
+      <View style={{width:"100%",height:"100%",backgroundColor:"#2b2b38"}}>
+        <Text style={{alignSelf:"center",paddingTop:"10%",color:"white",fontSize:24,fontWeight:"300",marginBottom:20}}>All Questions</Text>
+      
+        <Content>
+
+          <TouchableOpacity>
+              <View style={{width:"90%",height:160,backgroundColor:"#de368d",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
+                  <Text style={{fontSize:20,color:"white"}}>Why do people clear the screen multiple times when using a calculator?</Text>
+                  <Text style={{fontSize:10,color:"silver"}}>Things Science Cant Answer</Text>
+                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
+                      <Icon name="comments" size={30} color="white" /> 
+                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
+                  </View>
+              </View>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity>
+              <View style={{width:"90%",height:160,backgroundColor:"#685aa7",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
+                  <Text style={{fontSize:20,color:"white"}}></Text>
+                  <Text style={{fontSize:10,color:"silver"}}></Text>
+                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
+                      <Icon name="comments" size={30} color="white" /> 
+                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
+                  </View>
+              </View>
+          </TouchableOpacity> */}
+
+
+          <TouchableOpacity>
+              <View style={{width:"90%",height:160,backgroundColor:"black",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
+                  <Text style={{fontSize:20,color:"white"}}>Question1?</Text>
+                  <Text style={{fontSize:10,color:"silver"}}>Title1</Text>
+                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
+                      <Icon name="comments" size={30} color="white" /> 
+                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
+                  </View>
+              </View>
+          </TouchableOpacity>
+
+
+
+        </Content>
+      </View>
+
+
     );
   }
 }
