@@ -3,165 +3,75 @@ import {StyleSheet,  View} from 'react-native';
 // import console = require('console');
 
 import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Card, CardItem, } from 'native-base';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import Questions from './Question';
+
+import { Sae } from 'react-native-textinput-effects';
 export default class HomeScreen extends React.Component {  
+
+
+  constructor(props){
+    super(props)
+    this.state={
+        questions:[{title:"lll"},]
+    }
+  }
 
   componentDidMount(){
     console.log("Home Screen");
     console.log("JWT" , this.jwt);
+
+  
   }
+
+  removeatIndex=(index)=>{
+      console.log(index);
+
+      const newList = this.state.questions;      
+      newList.splice(index, 1);
+      // this.state.questions.splice(index, 1);
+
+      if( this.state.questions.length == 0){
+        this.setState({
+          questions:[]
+       })
+      }else{
+        this.setState({
+          questions:newList
+        })
+      }
+
+  }
+
+
+  lapsList() {
+      this.state.questions.map((index,data) => {
+          return (        
+              <Questions index={1} removeAtIndex={this.removeatIndex}/>
+          )
+      })
+  }
+
+
 
     render() {  
       return (  
         <Container>
         {/* <Header /> */}
-        <Text style={{alignSelf:"center",paddingTop:"10%",color:"black",fontSize:24,fontWeight:"300",marginBottom:20}}>My Questions</Text>
         <Content>
 
+          {
+            this.state.questions.map((data,index) => {
+              return (        
+                  <Questions index={index} removeAtIndex={this.removeatIndex}/>
+              )
+           })
 
-        {/* <Card>
-          <CardItem>
-                     <Body>
-                        <Text>Fawad Mahmood</Text>
-                        <Text note numberOfLines={1}>This is my First Question?</Text>
-                    </Body>
-          </CardItem>
-                <List>
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-                </List>
-            </Card> */}
-      
+          }
 
 
-            <Card>
-          <CardItem>
-                     <Body>
-                        <Text>Title9?</Text>
-                        <Text note numberOfLines={1}>QuestionfromPhone2?</Text>
-                    </Body>
-          </CardItem>
-                <List>
-                  <ListItem thumbnail>
-                    <Body>
-                      {/* <Text>doiwannaputtitle</Text> */}
-                      <Text note numberOfLines={1}>Simple Answer</Text>
-                    </Body>
-                    <Right>
-                      {/* <Button transparent>
-                        <Text>View</Text>
-                      </Button> */}
-                    </Right>
-                  </ListItem>
-
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text></Text>
-                      <Text note numberOfLines={1}>Longggggggggggggggggg</Text>
-                    </Body>
-                    <Right>
-                      {/* <Button transparent>
-                        <Text>View</Text>
-                      </Button> */}
-                    </Right>
-                  </ListItem>
-
-                  {/* <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem> */}
-                </List>
-            </Card>
-
-
-
-            {/* <Card>
-          <CardItem>
-                     <Body>
-                        <Text>Fawad Mahmood</Text>
-                        <Text note numberOfLines={1}>This is my First Question?</Text>
-                    </Body>
-          </CardItem>
-                <List>
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-
-                  <ListItem thumbnail>
-                    <Body>
-                      <Text>Sankhadeep</Text>
-                      <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-                    </Body>
-                    <Right>
-                      <Button transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-                </List>
-            </Card> */}
-      
-      
         </Content>
       </Container>
       );  

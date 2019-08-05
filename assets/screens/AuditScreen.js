@@ -7,7 +7,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
+import { Makiko } from 'react-native-textinput-effects';
 
+import Card from './InputField';
 export default class AuditScreen extends Component {
   state = {
     data: []
@@ -73,40 +75,16 @@ export default class AuditScreen extends Component {
       
         <Content>
 
-          <TouchableOpacity>
-              <View style={{width:"90%",height:160,backgroundColor:"#de368d",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
-                  <Text style={{fontSize:20,color:"white"}}>Why do people clear the screen multiple times when using a calculator?</Text>
-                  <Text style={{fontSize:10,color:"silver"}}>Things Science Cant Answer</Text>
-                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
-                      <Icon name="comments" size={30} color="white" /> 
-                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
-                  </View>
-              </View>
-          </TouchableOpacity>
+             
 
-          {/* <TouchableOpacity>
-              <View style={{width:"90%",height:160,backgroundColor:"#685aa7",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
-                  <Text style={{fontSize:20,color:"white"}}></Text>
-                  <Text style={{fontSize:10,color:"silver"}}></Text>
-                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
-                      <Icon name="comments" size={30} color="white" /> 
-                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
-                  </View>
-              </View>
-          </TouchableOpacity> */}
+              
+
+              <Card color={"#de368d"} question={"How many $54 phones are left at Huawei Jurong Point store?"} title={"Cheap Deals SG"}/>
+               {/* <Card color={"black"} question={"How is the weather at NUS?"} title={"Weather"}></Card>   */}
 
 
-          <TouchableOpacity>
-              <View style={{width:"90%",height:160,backgroundColor:"black",alignSelf:"center",borderRadius:20/2,padding:15,justifyContent:"space-between",marginBottom:"4%"}}>
-                  <Text style={{fontSize:20,color:"white"}}>Question1?</Text>
-                  <Text style={{fontSize:10,color:"silver"}}>Title1</Text>
-                  <View style={{height:37,width:"100%", flexDirection:"row"}}>
-                      <Icon name="comments" size={30} color="white" /> 
-                      <Text style={{color:"white",marginLeft:5,fontSize:23}}></Text>
-                  </View>
-              </View>
-          </TouchableOpacity>
-
+              {/* <Card color={"black"} question={"Another Question?"} title={"Fawad Mahmoood"}/>
+              <Card color={"green"} question={"One More Question?"}  title={"Fawad Mahmoood"}/> */}
 
 
         </Content>

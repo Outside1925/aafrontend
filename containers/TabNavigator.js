@@ -22,7 +22,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
     {  
         Home: { screen: HomeScreen,  
             navigationOptions:{  
-                tabBarLabel:'Home',  
+                tabBarLabel:'Answers',  
                 tabBarIcon: ({ tintColor }) => (  
                     <View>  
                         <Icon style={[{color: tintColor}]} size={25} name={'ios-home'}/>  
@@ -65,7 +65,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         },  
     },  
     {  
-      initialRouteName: "Home",  
+      initialRouteName: "Image",  
       activeColor: '#f0edf6',  
       inactiveColor: '#226557',  
       barStyle: { backgroundColor: '#3BAD87' },

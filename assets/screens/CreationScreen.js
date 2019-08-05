@@ -47,49 +47,54 @@ export default class CreationScreen extends React.Component {
     }
 
     handleSubmit() {
-        console.log('this is creation this.jwt', this.jwt)
-        fetch('http://auditarmy.com/api/forms', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "jwt": String(this.jwt),
-                "form": {
-                    "budget": 10,
-                    "lat": 1.1,
-                    "lng": 2.2,
-                    "radius": 30.0,
-                    "reward": 1,
-                    "title": this.state.title
-                }
+        if(this.state.title==='' || this.state.question ==='') {
+            Alert.alert('No Empty Fields!');
+        }
+        else {
+            console.log('this is creation this.jwt', this.jwt)
+            fetch('http://auditarmy.com/api/forms', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "jwt": String(this.jwt),
+                    "form": {
+                        "budget": 10,
+                        "lat": 1.1,
+                        "lng": 2.2,
+                        "radius": 30.0,
+                        "reward": 1,
+                        "title": this.state.title
+                    }
+                })
             })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log('forms respo ', responseJson)
-                Alert.alert('Question Submitted');
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        // let collection ={}
-        // collection.jwt = this.props.jwt
-        // collection.title = this.state.title
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    console.log('forms respo ', responseJson)
+                    Alert.alert('Question Submitted');
+                    this.setState({title:'', question:''});
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            // let collection ={}
+            // collection.jwt = this.props.jwt
+            // collection.title = this.state.title
 
-        // var url = 'https://auditarmy.com/api/forms/';
-        // fetch(url, {
-        // method: 'POST', // or 'PUT'
-        // body: JSON.stringify(collection), // data can be `string` or {object}!
-        // headers:{
-        //     'Content-Type': 'application/json'
-        // }
-        // }).then(res => res.json())
-        // .then(response => console.log('Success:', JSON.stringify(response)))
-        // .catch(error => console.error('Error:', error));
+            // var url = 'https://auditarmy.com/api/forms/';
+            // fetch(url, {
+            // method: 'POST', // or 'PUT'
+            // body: JSON.stringify(collection), // data can be `string` or {object}!
+            // headers:{
+            //     'Content-Type': 'application/json'
+            // }
+            // }).then(res => res.json())
+            // .then(response => console.log('Success:', JSON.stringify(response)))
+            // .catch(error => console.error('Error:', error));
+        }
     }
-
     render() {
         return (
             <View style={styles.container}>
